@@ -1,5 +1,6 @@
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 from typing import Dict
+import json
 
 router = APIRouter()
 
@@ -16,9 +17,15 @@ async def chat_socket(websocket: WebSocket, user_id: int):
         while True:
             data = await websocket.receive_text()
 
-            # broadcast to admin (simple version)
+            message_data = json.loads(data)
+
+            # broadcast to all connected clients
             for uid, ws in active_connections.items():
-                await ws.send_text(f"{user_id}:{data}")
+                await ws.send_text(json.dumps({
+                    "sender": message_data["sender"],
+                    "message": message_data["message"],
+                    "user_id": user_id
+                }))
 
     except WebSocketDisconnect:
         active_connections.pop(user_id, None)
