@@ -1,10 +1,10 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models.chat_message import ChatMessage
 from app.schemas.chat_schema import ChatCreate
-from app.utils.jwt import get_current_user   # 🔐 JWT se user
+from app.utils.jwt import get_current_user
 
 router = APIRouter(prefix="/chat", tags=["User Chat"])
 
@@ -26,8 +26,18 @@ def submit_chat(
         "namaste", "namaskar"
     ]
 
-    auto_reply = None
     status = "open"
+
+    # 🔹 USER MESSAGE FIRST
+    user_msg = ChatMessage(
+        user_id=current_user.id,
+        sender="user",
+        message=chat.message,
+        status=status
+    )
+    db.add(user_msg)
+
+    auto_reply = None
 
     # 🔹 auto greeting reply
     if any(greet in user_text for greet in greetings):
@@ -37,7 +47,6 @@ def submit_chat(
             "Our community team will assist you shortly."
         )
 
-        # system reply = admin message
         system_msg = ChatMessage(
             user_id=current_user.id,
             sender="admin",
@@ -46,15 +55,6 @@ def submit_chat(
         )
         db.add(system_msg)
 
-    # 🔹 user message
-    user_msg = ChatMessage(
-        user_id=current_user.id,
-        sender="user",
-        message=chat.message,
-        status=status
-    )
-
-    db.add(user_msg)
     db.commit()
 
     return {
