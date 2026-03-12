@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cyber Safe India</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+:root {
+  --primary: #0d6efd;
+  --danger: #dc3545;
+  --dark: #1f2937;
+  --light: #f3f4f6;
+  --gray: #6b7280;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: var(--light);
+  color: #111;
+  min-height: 100vh;
+}
+
+/* HERO */
+.hero {
+  background: linear-gradient(135deg, #0d6efd, #084298);
+  color: white;
+  padding: 50px 20px 70px;
+  text-align: center;
+}
+.hero h1 {
+  margin: 0;
+  font-size: clamp(28px, 6vw, 42px);
+}
+.hero p {
+  margin: 10px 0 0;
+  font-size: clamp(15px, 3.5vw, 18px);
+  opacity: 0.92;
+}
+
+/* CONTAINER */
+.container {
+  max-width: 1100px;
+  margin: -50px auto 40px;
+  padding: 0 16px;
+}
+
+/* CHECK NUMBER - prominent top section */
+.check-section {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  margin-bottom: 28px;
+}
+.check-section h3 {
+  margin: 0 0 18px;
+  font-size: 20px;
+  color: var(--dark);
+}
+.check-section input {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 17px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  margin-bottom: 14px;
+}
+.check-section button {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 10px;
+}
+
+/* GRID - Graph + News */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+.chart-box {
+  height: 280px;
+}
+canvas { width: 100% !important; height: 100% !important; }
+
+/* News */
+.news {
+  max-height: 280px;
+  overflow-y: auto;
+  font-size: 14px;
+}
+.news-item {
+  padding: 12px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+.news-item:last-child { border-bottom: none; }
+.news-item a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+.news-item small {
+  color: var(--gray);
+  display: block;
+  margin-top: 4px;
+}
+
+/* TRENDING */
+.section h3 {
+  font-size: 21px;
+  margin-bottom: 16px;
+  color: var(--dark);
+}
+.trending {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+.trending > div {
+  background: #f0f7ff;
+  padding: 16px;
+  border-radius: 12px;
+  font-size: 15px;
+}
+.trending button {
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+/* SIDEBAR - REPORT */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -360px;
+  width: 360px;
+  height: 100%;
+  background: white;
+  box-shadow: 3px 0 30px rgba(0,0,0,0.28);
+  transition: left 0.3s ease;
+  z-index: 2000;
+  overflow-y: auto;
+}
+.sidebar.open {
+  left: 0;
+}
+.sidebar-header {
+  background: var(--danger);
+  color: white;
+  padding: 20px;
+  font-size: 20px;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.sidebar-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 32px;
+  cursor: pointer;
+}
+.sidebar-content {
+  padding: 24px 20px;
+}
+.sidebar-content input,
+.sidebar-content select,
+.sidebar-content textarea {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  font-size: 15px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+}
+.sidebar-content textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+.sidebar-content button {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+}
+#reportResult {
+  margin-top: 16px;
+  font-weight: 500;
+  min-height: 24px;
+}
+
+/* Overlay */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s;
+  z-index: 1450;
+}
+.overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Floating Report Button */
+.fab-report {
+  position: fixed;
+  bottom: 90px;
+  left: 20px;
+  width: 66px;
+  height: 66px;
+  background: var(--danger);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  box-shadow: 0 8px 24px rgba(220,53,69,0.45);
+  cursor: pointer;
+  z-index: 1200;
+  transition: all 0.2s;
+}
+.fab-report:hover { transform: scale(1.1); }
+
+/* Floating Chat */
+.chat-float {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #25d366;
+  color: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  z-index: 1100;
+  cursor: pointer;
+}
+
+/* PROFILE - original style */
+.profile-wrapper {
+  position: fixed;
+  top: 15px;
+  right: 20px;
+  z-index: 1300;
+}
+.profile-btn {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 30px;
+  padding: 4px 8px 4px 4px;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+}
+.profile-name {
+  padding: 0 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0d6efd;
+  white-space: nowrap;
+}
+.profile-icon {
+  width: 44px;
+  height: 44px;
+  background: #0d6efd;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+.profile-menu {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  width: 160px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  display: none;
+  overflow: hidden;
+}
+.profile-menu button {
+  width: 100%;
+  padding: 12px 16px;
+  text-align: left;
+  border: none;
+  background: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+.profile-menu button:hover {
+  background: #f3f4f6;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .hero { padding: 40px 16px 60px; }
+  .chart-box { height: 240px; }
+  .sidebar { width: 90%; left: -90%; }
+  .fab-report { bottom: 100px; left: 16px; width: 60px; height: 60px; font-size: 26px; }
+  .profile-name { display: none; }
+}
+/* LEFT TOP MENU BUTTON */
+.left-menu-btn {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  width: 46px;
+  height: 46px;
+  background: #0d6efd;
+  color: white;
+  border-radius: 10px;
+  font-size: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1400;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+}
+/* PROFESSIONAL FOOTER */
+
+.site-footer{
+background:#081c3b;
+color:white;
+margin-top:60px;
+font-size:14px;
+}
+
+.footer-container{
+max-width:1100px;
+margin:auto;
+display:flex;
+justify-content:space-between;
+align-items:flex-start;
+padding:30px 20px;
+gap:20px;
+flex-wrap:wrap;
+}
+
+.footer-brand{
+max-width:420px;
+}
+
+.footer-brand p{
+opacity:.8;
+margin-top:8px;
+line-height:1.6;
+}
+
+.footer-links{
+display:flex;
+flex-wrap:wrap;
+gap:18px;
+align-items:center;
+}
+
+.footer-links a{
+color:white;
+text-decoration:none;
+font-weight:500;
+opacity:.9;
+transition:.2s;
+}
+
+.footer-links a:hover{
+opacity:1;
+text-decoration:underline;
+}
+
+.footer-bottom{
+text-align:center;
+padding:12px;
+border-top:1px solid rgba(255,255,255,.15);
+font-size:13px;
+opacity:.8;
+}
+
+/* MOBILE */
+@media(max-width:700px){
+
+.footer-container{
+flex-direction:column;
+align-items:flex-start;
+}
+
+.footer-links{
+margin-top:10px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+<!-- LEFT TOP MENU BUTTON -->
+<div class="left-menu-btn" onclick="openSearchSidebar()">☰</div>
+
+<!-- Floating Report Button -->
+<div class="fab-report" onclick="openReportSidebar()">🚨</div>
+<!-- SEARCH SIDEBAR (LEFT) -->
+<div id="searchSidebar" class="sidebar">
+  <div class="sidebar-header" style="background:#0d6efd">
+    <span>Search Tools</span>
+    <button class="sidebar-close" onclick="closeSearchSidebar()">×</button>
+  </div>
+
+  <div class="sidebar-content">
+
+  <!-- MENU OPTION -->
+  <div id="searchMenu">
+    <button class="primary" onclick="openUrlVerify()">
+      🔗 Verify URL / Link
+    </button>
+  </div>
+
+  <!-- URL VERIFY FORM (HIDDEN) -->
+  <div id="urlVerifyBox" style="display:none;margin-top:16px;">
+    <input
+      id="searchUrl"
+      type="text"
+      placeholder="Paste URL or domain here"
+    >
+
+    <button class="primary" onclick="checkPhishingUrl()">
+      Check URL
+    </button>
+
+    <div
+      id="urlResult"
+      style="margin-top:16px;font-weight:500;min-height:40px;"
+    ></div>
+
+    <button
+      style="margin-top:12px"
+      onclick="backToSearchMenu()"
+    >
+      ← Back
+    </button>
+  </div>
+
+</div>
+
+</div>
+
+<!-- Report Sidebar -->
+<div id="reportSidebar" class="sidebar">
+  <div class="sidebar-header">
+    <span>Report Suspicious Activity</span>
+    <button class="sidebar-close" onclick="closeReportSidebar()">×</button>
+  </div>
+  <div class="sidebar-content">
+    <input id="reportTarget" type="text" placeholder="Phone number, URL, email, website etc.">
+    
+    <select id="reportReason">
+      <option value="">Select reason</option>
+      <option>Bank Fraud</option>
+      <option>Job Scam</option>
+      <option>Courier / Delivery Scam</option>
+      <option>UPI / Payment Fraud</option>
+      <option>Phishing URL</option>
+      <option>Investment / Trading Scam</option>
+      <option>Other</option>
+    </select>
+    
+    <textarea id="reportDesc" rows="5" placeholder="Describe what happened (optional)" maxlength="300"></textarea>
+    
+    <button class="danger" onclick="submitReport()">Submit Report</button>
+    
+    <div id="reportResult"></div>
+  </div>
+</div>
+
+<!-- Overlay -->
+<div id="overlay" class="overlay"
+     onclick="closeReportSidebar(); closeSearchSidebar();"></div>
+
+
+<!-- Profile -->
+<div class="profile-wrapper">
+  <div class="profile-btn" onclick="toggleProfileMenu()">
+    <div class="profile-name" id="profileUserName">User</div>
+    <div class="profile-icon">👤</div>
+  </div>
+
+  <div id="profileMenu" class="profile-menu">
+    <button onclick="goProfile()">👤 My Profile</button>
+    <button onclick="logout()">🚪 Logout</button>
+  </div>
+</div>
+
+<!-- Floating Chat -->
+<div class="chat-float" onclick="openChat()">💬</div>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>CYBER SAFE INDIA</h1>
+  <p>Community-driven cyber fraud awareness & reporting platform</p>
+</div>
+
+<div class="container">
+
+  <!-- Check Number -->
+  <div class="check-section">
+    <h3>🔍 Check Phone Number</h3>
+    <input id="phone" type="tel" placeholder="Enter phone number">
+    <button class="primary" onclick="checkNumber()">Check Number</button>
+    <div id="checkResult" style="margin-top:16px; font-weight:500; min-height:28px;"></div>
+  </div>
+
+  <!-- Graph + News -->
+  <div class="grid">
+    <div class="card">
+      <h3>📊 Cyber Fraud Trend (India)</h3>
+      <div class="chart-box">
+        <canvas id="indiaChart"></canvas>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>📰 Latest Cyber Crime News</h3>
+      <div id="news" class="news">Loading news...</div>
+    </div>
+  </div>
+
+  <!-- Trending -->
+  <div class="section">
+    <h3>🔥 Trending Cyber Attacks</h3>
+    <div class="trending">
+      <div>
+        <b>Bank OTP Scam</b>
+        <button onclick="toggleGuide('otp')">How to stay safe</button>
+      </div>
+      <div>
+        <b>Job Scam (WhatsApp)</b>
+        <button onclick="toggleGuide('job')">How to stay safe</button>
+      </div>
+      <div>
+        <b>Fake Courier Calls</b>
+        <button onclick="toggleGuide('courier')">How to stay safe</button>
+      </div>
+      <div>
+        <b>UPI Refund Scam</b>
+        <button onclick="toggleGuide('upi')">How to stay safe</button>
+      </div>
+    </div>
+    <div id="guide" style="margin-top:24px; background:#ecfeff; padding:16px; border-radius:12px; display:none;"></div>
+  </div>
+
+</div>
+<footer class="site-footer">
+
+  <div class="footer-container">
+
+    <div class="footer-brand">
+      🛡 <strong>Cyber Safe India</strong>
+      <p>
+        Independent cybersecurity awareness platform helping users
+        identify scams and stay safe online.
+      </p>
+    </div>
+
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+      <a href="contact.html">Contact</a>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    © 2026 Cyber Safe India — Educational Project
+  </div>
+
+</footer>
+
+<script>
+const API = "http://127.0.0.1:8000";
+
+
+// Chart
+const indiaFraudChart = new Chart(document.getElementById('indiaChart'), {
+  type: "bar",
+  data: {
+    labels: ["Bank", "Job", "Courier", "UPI"],
+    datasets: [{
+      data: [45, 25, 20, 10],
+      backgroundColor: "#0d6efd",
+      borderRadius: 6
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: { y: { beginAtZero: true } }
+  }
+});
+
+
+// News (FROM BACKEND)
+async function loadNews() {
+  try {
+    const res = await fetch("http://127.0.0.1:8000/news");
+    const data = await res.json();
+
+    const newsDiv = document.getElementById("news");
+    newsDiv.innerHTML = "";
+
+    data.articles.forEach(article => {
+      newsDiv.innerHTML += `
+        <div class="news-item">
+          <a href="${article.url}" target="_blank">${article.title}</a>
+          <small>${article.source}</small>
+        </div>
+      `;
+    });
+
+  } catch (err) {
+    document.getElementById("news").innerHTML =
+      "<small>News temporarily unavailable</small>";
+  }
+}
+
+loadNews();
+
+// Guide
+function toggleGuide(type) {
+  const guide = document.getElementById("guide");
+  guide.style.display = "block";
+  
+  if (type === "otp")     guide.innerHTML = "✔ Never share OTP with anyone<br>✔ Bank never calls to ask for OTP";
+  if (type === "job")     guide.innerHTML = "✔ No genuine job asks for money upfront<br>✔ Always verify company website & email";
+  if (type === "courier") guide.innerHTML = "✔ Courier companies never threaten arrest<br>✔ Ignore calls asking for OTP or payment";
+  if (type === "upi")     guide.innerHTML = "✔ Never click suspicious refund links<br>✔ Verify transaction in your UPI app";
+}
+
+// Check Number
+async function checkNumber() {
+  const phone = document.getElementById("phone").value.trim();
+  const result = document.getElementById("checkResult");
+
+  if (!phone) {
+    result.innerHTML = "Please enter a phone number";
+    return;
+  }
+
+  result.innerHTML = "Checking...";
+
+  try {
+    const res = await fetch(API + "/check/number", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ phone_number: phone })
+    });
+    const data = await res.json();
+
+    let tag = "Low Risk";
+    if (data.reports >= 3) tag = "⚠️ Suspected";
+    if (data.reports >= 6) tag = "🚫 High Risk / Scam";
+
+    let html = `
+  <div style="margin-bottom:10px;">
+    <b>Risk:</b> ${tag}<br>
+    <b>Reports:</b> ${data.reports || 0}
+  </div>
+`;
+
+if (data.profile) {
+  html += `
+    <div style="
+      background:#f9fafb;
+      padding:14px;
+      border-radius:10px;
+      border:1px solid #e5e7eb;
+    ">
+      <b>${data.profile.name || "Unknown User"}</b><br>
+
+      ${data.profile.location ? "📍 " + data.profile.location + "<br>" : ""}
+      ${data.profile.email ? "✉️ " + data.profile.email + "<br>" : ""}
+      ${data.profile.bio ? "📝 " + data.profile.bio + "<br>" : ""}
+
+      <small style="color:#6b7280">
+        Badge: ${data.profile.badge} • 
+        Profile: ${data.profile.completion_percentage}%
+      </small>
+    </div>
+  `;
+} else {
+  html += `<small>No public profile found for this number</small>`;
+}
+
+result.innerHTML = html;
+
+  } catch {
+    result.innerHTML = "Error checking number";
+  }
+}
+
+// Report Sidebar
+function openReportSidebar() {
+  document.getElementById("reportSidebar").classList.add("open");
+  document.getElementById("overlay").classList.add("show");
+}
+
+function closeReportSidebar() {
+  document.getElementById("reportSidebar").classList.remove("open");
+  document.getElementById("overlay").classList.remove("show");
+}
+
+async function submitReport() {
+  const target = document.getElementById("reportTarget").value.trim();
+  const reason = document.getElementById("reportReason").value;
+  const desc = document.getElementById("reportDesc").value.trim();
+  const result = document.getElementById("reportResult");
+
+  if (!target) return alert("Please enter number, URL or email");
+  if (!reason) return alert("Please select a reason");
+
+  if (localStorage.getItem("rep_" + target)) {
+    result.innerHTML = "You have already reported.";
+    result.style.color = "red";
+    return;
+  }
+
+  result.innerHTML = "Submitting...";
+
+  try {
+    await fetch(API + "/check/report", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        phone_number: target,
+        scam_type: reason + (desc ? " | " + desc : "")
+      })
+    });
+
+    localStorage.setItem("rep_" + target, "true");
+    result.innerHTML = "Report submitted successfully ✓";
+    result.style.color = "green";
+
+    setTimeout(() => {
+      document.getElementById("reportTarget").value = "";
+      document.getElementById("reportReason").value = "";
+      document.getElementById("reportDesc").value = "";
+      result.innerHTML = "";
+      closeReportSidebar();
+    }, 1800);
+
+  } catch {
+    result.innerHTML = "Error submitting report";
+    result.style.color = "red";
+  }
+}
+
+// Profile & Chat functions
+function openChat() {
+  window.location.href = "x1.html";
+}
+
+function toggleProfileMenu() {
+  const menu = document.getElementById("profileMenu");
+  menu.style.display = menu.style.display === "block" ? "none" : "block";
+}
+
+function goProfile() {
+  window.location.href = "profile.html";
+}
+
+function logout() {
+  localStorage.removeItem("token");
+  window.location.href = "index.html";
+}
+
+document.addEventListener("click", e => {
+  if (!e.target.closest(".profile-wrapper")) {
+    const menu = document.getElementById("profileMenu");
+    if (menu) menu.style.display = "none";
+  }
+});
+
+const API_BASE = "http://127.0.0.1:8000";
+const token = localStorage.getItem("token");
+
+async function loadProfileName() {
+  if (!token) return;
+  try {
+    const res = await fetch(API_BASE + "/profile/me", {
+      headers: { "Authorization": "Bearer " + token }
+    });
+    if (!res.ok) return;
+    const data = await res.json();
+    document.getElementById("profileUserName").innerText = data.name || "User";
+  } catch {
+    console.log("Profile load failed");
+  }
+}
+// LEFT SEARCH SIDEBAR
+function openSearchSidebar() {
+  document.getElementById("searchSidebar").classList.add("open");
+  document.getElementById("overlay").classList.add("show");
+}
+
+function closeSearchSidebar() {
+  document.getElementById("searchSidebar").classList.remove("open");
+  document.getElementById("overlay").classList.remove("show");
+}
+
+// PHISHING URL CHECK
+async function checkPhishingUrl() {
+  const url = document.getElementById("searchUrl").value.trim();
+  const out = document.getElementById("urlResult");
+
+  if (!url) {
+    out.innerHTML = "Please enter a URL";
+    return;
+  }
+
+  out.innerHTML = "Checking link safety...";
+
+  try {
+    const res = await fetch(API + "/phish/check", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url })
+    });
+
+    const data = await res.json();
+
+    out.innerHTML = `
+      <div>
+        <b>Risk:</b> ${data.risk_level}<br>
+        <b>Score:</b> ${data.score}/100
+      </div>
+      <small style="color:#6b7280">
+        ${data.explain}
+      </small>
+    `;
+
+  } catch (e) {
+    out.innerHTML = "Error checking URL";
+  }
+}
+function openUrlVerify() {
+  document.getElementById("searchMenu").style.display = "none";
+  document.getElementById("urlVerifyBox").style.display = "block";
+}
+
+function backToSearchMenu() {
+  document.getElementById("urlVerifyBox").style.display = "none";
+  document.getElementById("searchMenu").style.display = "block";
+}
+
+loadProfileName();
+</script>
+
+</body>
+</html>

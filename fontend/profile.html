@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cyber Safe India | Profile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: #0b5ed7;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 520px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .profile-card {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .profile-card h3 {
+            margin: 6px 0;
+        }
+
+        .profile-card p {
+            margin: 4px 0;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        .badge.none { background: #ced4da; color: #333; }
+        .badge.verified { background: #0d6efd; color: white; }
+        .badge.trusted { background: #198754; color: white; }
+
+        .progress {
+            background: #e9ecef;
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 15px 0 5px;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: #0d6efd;
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        #completionText {
+            font-size: 13px;
+            color: #666;
+        }
+
+        form label {
+            font-weight: bold;
+            display: block;
+            margin-top: 14px;
+            font-size: 14px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        textarea { resize: none; }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            background: #0d6efd;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover { background: #084298; }
+
+        .logout {
+            background: #dc3545;
+            margin-top: 12px;
+        }
+
+        .logout:hover { background: #b02a37; }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .container { margin: 10px; padding: 16px; }
+            header h2 { font-size: 18px; }
+            button { font-size: 15px; }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h2>Complete Your Profile</h2>
+</header>
+
+<div class="container">
+
+    <!-- PROFILE CARD -->
+    <div class="profile-card">
+        <h3 id="profileName">Your Name</h3>
+        <p id="profilePhone">Phone:</p>
+
+        <div id="profileBadge" class="badge none">No Badge</div>
+
+        <div class="progress">
+            <div id="progressBar" class="progress-bar"></div>
+        </div>
+
+        <small id="completionText">0% Complete</small>
+    </div>
+
+    <!-- PROFILE FORM -->
+    <form id="profileForm">
+
+        <label>Full Name</label>
+        <input type="text" id="name" placeholder="Enter your full name">
+
+        <label>Email ID</label>
+        <input type="email" id="email" placeholder="example@gmail.com">
+
+        <label>Location</label>
+        <input type="text" id="location" placeholder="City, State">
+
+        <label>Work / Role</label>
+        <input type="text" id="work" placeholder="Student / Engineer / Business">
+
+        <label>Company / Organization</label>
+        <input type="text" id="company" placeholder="Company name (optional)">
+
+        <label>Short Bio</label>
+        <textarea id="bio" rows="3" placeholder="Tell something about yourself"></textarea>
+
+        <button type="submit">Save Profile</button>
+    </form>
+
+    <button class="logout" onclick="logout()">Logout</button>
+</div>
+
+<script src="assets/js/profile.js"></script>
+
+</body>
+</html>

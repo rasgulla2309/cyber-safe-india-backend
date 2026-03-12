@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel | Cyber Safe India</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f2f5f9;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: linear-gradient(135deg, #212529, #343a40);
+            color: #fff;
+            padding: 18px;
+            text-align: center;
+        }
+
+        .header h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .header p {
+            margin: 6px 0 0;
+            font-size: 14px;
+            opacity: 0.85;
+        }
+
+        /* ===== CONTAINER ===== */
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        /* ===== CHAT CARD ===== */
+        .chat {
+            background: #fff;
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.05);
+        }
+
+        .chat-id {
+            font-size: 12px;
+            color: #6c757d;
+            margin-bottom: 4px;
+        }
+
+        .chat b {
+            font-weight: 600;
+        }
+
+        .status {
+            margin-top: 6px;
+            font-size: 13px;
+            color: #555;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 70px;
+            margin-top: 8px;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+            resize: vertical;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn-group {
+            margin-top: 8px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        .reply-btn {
+            background: #0d6efd;
+        }
+
+        .reply-btn:hover {
+            background: #0b5ed7;
+        }
+
+        .resolve-btn {
+            background: #198754;
+        }
+
+        .resolve-btn:hover {
+            background: #157347;
+        }
+
+        .close-btn {
+            background: #dc3545;
+        }
+
+        .close-btn:hover {
+            background: #bb2d3b;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 600px) {
+            .header h2 {
+                font-size: 20px;
+            }
+
+            .container {
+                padding: 12px;
+            }
+
+            textarea {
+                min-height: 90px;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <h2>Admin Panel – Cyber Safe India</h2>
+    <p>Moderated Cyber Help Desk</p>
+</div>
+
+<!-- CONTENT -->
+<div class="container">
+    <div id="chatList"></div>
+</div>
+
+<script src="assets/js/admin.js"></script>
+</body>
+</html>

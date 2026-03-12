@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Contact | Cyber Safe India</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:"Segoe UI",Arial,sans-serif}
+body{background:#f4f6fb;color:#111}
+
+/* NAVBAR */
+.navbar{
+position:fixed;top:0;width:100%;
+background:white;display:flex;
+justify-content:space-between;align-items:center;
+padding:14px 26px;box-shadow:0 2px 12px rgba(0,0,0,.1);
+z-index:999;
+}
+.logo{font-size:20px;font-weight:700;color:#0d6efd}
+.nav-links a{
+margin-left:18px;text-decoration:none;color:#0d6efd;font-weight:600;
+}
+
+/* HERO */
+.hero{
+padding-top:110px;padding-bottom:90px;
+background:linear-gradient(135deg,#0d6efd,#081c3b);
+color:white;text-align:center;
+}
+.hero h1{font-size:42px;margin-bottom:10px}
+
+/* CONTAINER */
+.container{max-width:1100px;margin:auto;padding:50px 20px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:30px}
+
+/* INFO CARDS */
+.info-card{
+background:white;padding:24px;border-radius:14px;
+box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+.info-card h3{color:#0d6efd;margin-bottom:10px}
+
+/* FORM CARD */
+.form-card{
+background:white;padding:28px;border-radius:14px;
+box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+input,textarea{
+width:100%;padding:12px;margin-top:8px;
+border-radius:8px;border:1px solid #d1d5db;font-size:14px;
+}
+textarea{resize:none;height:110px}
+
+button{
+margin-top:14px;width:100%;padding:12px;
+background:#0d6efd;color:white;border:none;
+border-radius:8px;font-weight:600;cursor:pointer;
+}
+button:hover{background:#0b5ed7}
+button:disabled{background:#7aa7ff}
+
+/* POPUP — professional subtle style */
+.popup{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.45);
+display:none;
+align-items:center;
+justify-content:center;
+z-index:5000;
+}
+
+.popup-box{
+background:white;
+padding:28px;
+border-radius:12px;
+box-shadow:0 20px 60px rgba(0,0,0,.3);
+text-align:center;
+max-width:340px;
+animation:fade .25s ease;
+}
+
+@keyframes fade{
+from{opacity:0; transform:translateY(12px)}
+to{opacity:1; transform:translateY(0)}
+}
+
+.popup-box h3{
+color:#0d6efd;
+margin-bottom:8px;
+}
+
+.popup-box button{
+margin-top:14px;
+}
+
+/* FOOTER */
+.site-footer{background:#081c3b;color:white;margin-top:60px}
+.footer-container{
+max-width:1100px;margin:auto;
+display:flex;justify-content:space-between;
+padding:30px 20px;flex-wrap:wrap;
+}
+.footer-links a{color:white;text-decoration:none;margin-right:16px}
+.footer-bottom{
+text-align:center;padding:12px;
+border-top:1px solid rgba(255,255,255,.15);font-size:13px;
+}
+
+/* MOBILE */
+@media(max-width:800px){
+.grid{grid-template-columns:1fr;}
+.hero h1{font-size:30px;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+<div class="logo">🛡 Cyber Safe India</div>
+<div class="nav-links">
+<a href="index.html">Home</a>
+<a href="about.html">About</a>
+</div>
+</div>
+
+<div class="hero">
+<h1>Contact</h1>
+<p>We welcome feedback, suggestions, and collaboration</p>
+</div>
+
+<div class="container">
+
+<div class="grid">
+
+<div>
+<div class="info-card">
+<h3>Email</h3>
+<p id="mail">businessfirewall@gmail.com</p>
+<button onclick="copyMail()">Copy Email</button>
+</div>
+
+<div class="info-card" style="margin-top:20px;">
+<h3>GitHub</h3>
+<a href="https://github.com/thakur2309" target="_blank">Visit Repository</a>
+</div>
+
+<div class="info-card" style="margin-top:20px;">
+<h3>Notice</h3>
+<p>Cyber Safe India is an independent educational cybersecurity project and not affiliated with any government authority.</p>
+</div>
+</div>
+
+<!-- FORM -->
+<div class="form-card">
+<h3>Send Message</h3>
+
+<form id="contactForm">
+<input type="hidden" name="access_key"
+value="15ba9768-d116-4522-862e-e3d717bfee89">
+
+<input name="name" placeholder="Your Name" required>
+<input name="email" type="email" placeholder="Email Address" required>
+<textarea name="message" placeholder="Message" required></textarea>
+
+<button id="submitBtn">Submit</button>
+</form>
+</div>
+
+</div>
+</div>
+
+<!-- SUCCESS POPUP -->
+<div id="popup" class="popup">
+<div class="popup-box">
+<h3>Message Sent</h3>
+<p>Your message has been delivered successfully.</p>
+<button onclick="closePopup()">Close</button>
+</div>
+</div>
+
+<footer class="site-footer">
+<div class="footer-container">
+<div>
+🛡 <strong>Cyber Safe India</strong>
+<p>Independent cybersecurity awareness platform</p>
+</div>
+<div class="footer-links">
+<a href="index.html">Home</a>
+<a href="privacy.html">Privacy</a>
+<a href="terms.html">Terms</a>
+</div>
+</div>
+<div class="footer-bottom">
+© 2026 Cyber Safe India — Educational Project
+</div>
+</footer>
+
+<script>
+function copyMail(){
+navigator.clipboard.writeText(document.getElementById("mail").innerText);
+alert("Email copied");
+}
+
+/* PROFESSIONAL FORM SUBMIT */
+const form=document.getElementById("contactForm");
+const btn=document.getElementById("submitBtn");
+
+form.addEventListener("submit",async e=>{
+e.preventDefault();
+
+btn.disabled=true;
+btn.innerText="Sending...";
+
+try{
+await fetch("https://api.web3forms.com/submit",{
+method:"POST",
+body:new FormData(form)
+});
+form.reset();
+document.getElementById("popup").style.display="flex";
+}
+catch{
+alert("Submission failed — try again");
+}
+
+btn.disabled=false;
+btn.innerText="Submit";
+});
+
+function closePopup(){
+document.getElementById("popup").style.display="none";
+}
+</script>
+
+</body>
+</html>

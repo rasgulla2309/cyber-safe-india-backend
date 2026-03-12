@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cyber Safe India</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+font-family:"Segoe UI",Arial,sans-serif;
+}
+
+body{
+background:#f4f6fb;
+color:#111;
+}
+
+/* NAVBAR */
+.navbar{
+position:fixed;
+top:0;
+width:100%;
+background:white;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:14px 20px;
+box-shadow:0 2px 12px rgba(0,0,0,.1);
+z-index:999;
+}
+
+.logo{
+font-size:20px;
+font-weight:700;
+color:#0d6efd;
+}
+
+/* NAV LINKS */
+.nav-links{
+display:flex;
+align-items:center;
+gap:20px;
+}
+
+.nav-links a{
+text-decoration:none;
+color:#0d6efd;
+font-weight:600;
+}
+
+.login-btn{
+background:#0d6efd;
+color:white;
+border:none;
+padding:10px 18px;
+border-radius:8px;
+font-weight:600;
+cursor:pointer;
+}
+
+/* MOBILE MENU BUTTON */
+.menu-toggle{
+display:none;
+font-size:26px;
+cursor:pointer;
+}
+
+/* HERO */
+.hero{
+padding-top:110px;
+padding-bottom:100px;
+background:linear-gradient(135deg,#0d6efd,#081c3b);
+color:white;
+text-align:center;
+}
+
+.hero h1{
+font-size:44px;
+margin-bottom:16px;
+}
+
+.hero p{
+max-width:720px;
+margin:auto;
+opacity:.9;
+font-size:18px;
+}
+
+.hero button{
+margin-top:28px;
+padding:15px 28px;
+font-size:17px;
+border:none;
+border-radius:10px;
+background:white;
+color:#0d6efd;
+font-weight:700;
+cursor:pointer;
+}
+
+/* NOTICE */
+.notice{
+background:#fff8e1;
+text-align:center;
+padding:12px;
+font-size:14px;
+}
+
+/* FEATURES */
+.section{
+padding:70px 20px;
+max-width:1100px;
+margin:auto;
+}
+
+.section h2{
+text-align:center;
+margin-bottom:40px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:22px;
+}
+
+.card{
+background:white;
+padding:26px;
+border-radius:14px;
+box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+/* CTA */
+.strip{
+background:#0d6efd;
+color:white;
+text-align:center;
+padding:50px 20px;
+}
+
+.strip button{
+margin-top:16px;
+padding:12px 24px;
+border:none;
+border-radius:8px;
+background:white;
+color:#0d6efd;
+font-weight:700;
+}
+
+/* FOOTER */
+.site-footer{
+background:#081c3b;
+color:white;
+margin-top:60px;
+}
+
+.footer-container{
+max-width:1100px;
+margin:auto;
+display:flex;
+justify-content:space-between;
+padding:30px 20px;
+flex-wrap:wrap;
+}
+
+.footer-links a{
+color:white;
+text-decoration:none;
+margin-right:16px;
+}
+
+.footer-bottom{
+text-align:center;
+padding:12px;
+border-top:1px solid rgba(255,255,255,.15);
+font-size:13px;
+}
+
+/* ============================= */
+/* MOBILE RESPONSIVE NAVIGATION */
+/* ============================= */
+
+@media(max-width:768px){
+
+.menu-toggle{
+display:block;
+}
+
+/* COMPACT MOBILE MENU */
+.nav-links{
+position:absolute;
+top:65px;
+right:12px;
+background:white;
+width:160px;              /* smaller */
+flex-direction:column;
+align-items:flex-start;
+padding:14px 16px;
+border-radius:12px;       /* rounded */
+box-shadow:0 12px 28px rgba(0,0,0,.18);
+display:none;
+animation:menuFade .18s ease;
+}
+
+/* LINKS STYLE */
+.nav-links a,
+.nav-links button{
+width:100%;
+margin-top:8px;
+font-size:14px;
+}
+
+/* ANIMATION */
+@keyframes menuFade{
+from{opacity:0; transform:translateY(-6px)}
+to{opacity:1; transform:translateY(0)}
+}
+
+.nav-links.show{
+display:flex;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+
+<div class="logo">🛡 Cyber Safe India</div>
+
+<div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+<div class="nav-links" id="navLinks">
+<a href="about.html">About</a>
+<a href="contact.html">Contact</a>
+<button class="login-btn" onclick="goLogin()">Login</button>
+</div>
+
+</div>
+
+<!-- HERO -->
+<div class="hero">
+<h1>Stay Safe From Digital Fraud</h1>
+
+<p>
+Community-driven cybersecurity awareness platform helping users
+identify scams, verify links, and report suspicious activity.
+</p>
+
+<button onclick="goLogin()">Get Started</button>
+</div>
+
+<div class="notice">
+Independent educational cybersecurity project — not affiliated with any government authority
+</div>
+
+<!-- FEATURES -->
+<div class="section">
+<h2>Platform Capabilities</h2>
+
+<div class="grid">
+
+<div class="card">
+<h3>📞 Number Intelligence</h3>
+<p>Check numbers reported by community members.</p>
+</div>
+
+<div class="card">
+<h3>🔗 URL Safety Scan</h3>
+<p>Evaluate links before visiting suspicious websites.</p>
+</div>
+
+<div class="card">
+<h3>🚨 Fraud Reporting</h3>
+<p>Share warnings that protect others.</p>
+</div>
+
+<div class="card">
+<h3>📰 Awareness Insights</h3>
+<p>Stay informed about current cyber threats.</p>
+</div>
+
+</div>
+</div>
+
+<!-- CTA -->
+<div class="strip">
+<h2>Start Protecting Yourself Today</h2>
+<button onclick="goLogin()">Open Dashboard</button>
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+
+<div class="footer-container">
+<div>
+🛡 <strong>Cyber Safe India</strong>
+<p>Independent cybersecurity awareness platform</p>
+</div>
+
+<div class="footer-links">
+<a href="index.html">Home</a>
+<a href="about.html">About</a>
+<a href="privacy.html">Privacy</a>
+<a href="terms.html">Terms</a>
+<a href="contact.html">Contact</a>
+</div>
+</div>
+
+<div class="footer-bottom">
+© 2026 Cyber Safe India — Educational Project
+</div>
+
+</footer>
+
+<script>
+
+function toggleMenu(){
+document.getElementById("navLinks").classList.toggle("show");
+}
+
+if(localStorage.getItem("token")){
+window.location.href="main_index.html";
+}
+
+function goLogin(){
+window.location.href="login.html";
+}
+
+</script>
+
+</body>
+</html>
